@@ -11,7 +11,7 @@ public enum PolyType {
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(Material))]
+[RequireComponent(typeof(MeshCollider))]
 public class Poly : MonoBehaviour {
 
     protected PolyType ptype;
@@ -22,6 +22,8 @@ public class Poly : MonoBehaviour {
 
     protected virtual void init() {
         this.GetComponent<MeshFilter>().mesh = PolyTool.CreateTriangle();
+        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
+        this.GetComponent<MeshRenderer>().materials[0] = Constants.vertexColor;
         this.ptype = PolyType.Triangle;
     }
 

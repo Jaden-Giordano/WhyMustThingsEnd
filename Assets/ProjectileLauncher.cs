@@ -37,6 +37,9 @@ public class ProjectileLauncher : MonoBehaviour {
 	
 	void Update () {
         tick();
+	}
+
+    protected virtual void tick() {
         if (timer.elapsedTime > launchCooldown) {
             timer.Reset();
             LaunchProjectile();
@@ -54,10 +57,6 @@ public class ProjectileLauncher : MonoBehaviour {
                 burstTimer.Reset();
             }
         }
-	}
-
-    protected virtual void tick() {
-        
     }
 
     public virtual void Upgrade() {
@@ -352,6 +351,7 @@ public class ProjectileLauncher : MonoBehaviour {
                         GameObject proj4 = new GameObject();
                         proj4.AddComponent<Projectile>();
                         proj4.transform.position = this.transform.position;
+                        
                         proj4.GetComponent<Projectile>().SetDirection(d5);
 
                         Vector3 d6 = new Vector3(Mathf.Cos(Mathf.Deg2Rad * (up + 247.5f + (5 * i))), Mathf.Sin(Mathf.Deg2Rad * (up + 247.5f + (5 * i))));

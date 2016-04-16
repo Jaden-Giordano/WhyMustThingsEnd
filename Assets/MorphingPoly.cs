@@ -47,19 +47,23 @@ public class MorphingPoly : Poly {
                     case PolyType.Hexagon:
                         this.ptype = PolyType.Octagon;
                         this.GetComponent<MeshFilter>().mesh = PolyTool.CreateOctagon();
+                        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
                         break;
                     case PolyType.Pentagon:
                         this.ptype = PolyType.Hexagon;
                         this.GetComponent<MeshFilter>().mesh = PolyTool.CreateHexagon();
+                        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
                         break;
                     case PolyType.Rectangle:
                         this.ptype = PolyType.Pentagon;
                         this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePentagon();
+                        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
                         break;
 
                     case PolyType.Triangle:
                         this.ptype = PolyType.Rectangle;
                         this.GetComponent<MeshFilter>().mesh = PolyTool.CreateSquare();
+                        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
                         break;
                 }
                 break;
@@ -79,6 +83,15 @@ public class MorphingPoly : Poly {
                 }
                 else {
                     this.gameObject.AddComponent<Rotator>();
+                }
+                break;
+            case MorphType.Movement:
+                Mover m = GetComponent<Mover>();
+                if (m != null) {
+                    m.Upgrade();
+                }
+                else {
+                    this.gameObject.AddComponent<Mover>();
                 }
                 break;
         }
