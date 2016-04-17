@@ -11,6 +11,8 @@ public class Constants : MonoBehaviour {
 
     public static GameObject morphingPoly;
 
+    public AudioSource music;
+
     public int amountOfPolysToSpawn = 10;
 
     void Start () {
@@ -18,6 +20,17 @@ public class Constants : MonoBehaviour {
         morphingPoly = morphingPolyPrefab;
 
         GenerateLevel();
+
+        music.volume = 0;
+
+        StartCoroutine(MusicFade(music));
+    }
+
+    IEnumerator MusicFade (AudioSource a) {
+        while (a.volume < .38f) {
+            a.volume = Mathf.Lerp(a.volume, .4f, .01f);
+            yield return null;
+        }
     }
 
     void GenerateLevel() {

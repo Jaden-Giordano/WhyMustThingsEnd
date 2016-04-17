@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MorphingPoly {
@@ -10,6 +11,8 @@ public class Player : MorphingPoly {
 
     [SerializeField]
     protected int unspentPoints;
+
+    public GameObject uiPanel;
 
     public float zoom = 1f;
 
@@ -55,6 +58,27 @@ public class Player : MorphingPoly {
         if (Input.GetKeyUp(KeyCode.Alpha6)) {
             SpendSkillPoint(MorphType.Health);
         }
+
+        Text uep = uiPanel.transform.GetChild(0).GetComponent<Text>();
+        uep.text = "Unspent Evolution Points: " + unspentPoints;
+
+        Text shape = uiPanel.transform.GetChild(1).GetChild(0).GetComponent<Text>();
+        shape.text = "Morph \n\r" + morphTypeCount[0];
+
+        Text move = uiPanel.transform.GetChild(2).GetChild(0).GetComponent<Text>();
+        move.text = "Move \n\r" + morphTypeCount[1];
+
+        Text rot = uiPanel.transform.GetChild(3).GetChild(0).GetComponent<Text>();
+        rot.text = "Rotation \n\r" + morphTypeCount[2];
+
+        Text proj = uiPanel.transform.GetChild(4).GetChild(0).GetComponent<Text>();
+        proj.text = "Project. \n\r" + morphTypeCount[3];
+
+        Text shields = uiPanel.transform.GetChild(5).GetChild(0).GetComponent<Text>();
+        shields.text = "Shields \n\r" + morphTypeCount[4];
+
+        Text hp = uiPanel.transform.GetChild(6).GetChild(0).GetComponent<Text>();
+        hp.text = "Health \n\r" + morphTypeCount[5];
     }
 
     public virtual void SpendSkillPoint(MorphType mtype) {

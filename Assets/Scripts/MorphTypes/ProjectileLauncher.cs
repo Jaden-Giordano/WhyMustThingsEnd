@@ -51,7 +51,7 @@ public class ProjectileLauncher : MonoBehaviour {
 
     protected virtual void tick() {
         if (this.gameObject.tag == "Player") {
-            if (Input.GetKeyDown(KeyCode.Space) && timer.elapsedTime > launchCooldown) {
+            if (Input.GetKey(KeyCode.Space) && timer.elapsedTime > launchCooldown) {
                 timer.Reset();
                 LaunchProjectiles();
                 burst = true;
