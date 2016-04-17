@@ -7,7 +7,7 @@ public class Player : MorphingPoly {
     protected Timer pointsAdder;
 
     [SerializeField]
-    protected float pointAddition = 3f;
+    protected float pointAddition = 8f;
 
     [SerializeField]
     protected int unspentPoints;
@@ -20,7 +20,7 @@ public class Player : MorphingPoly {
         base.init();
 
         pointsAdder = new Timer();
-        unspentPoints = 0;
+        unspentPoints = 1;
 
         this.gameObject.tag = "Player";
     }
