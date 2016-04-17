@@ -57,7 +57,7 @@ public class ProjectileLauncher : MonoBehaviour {
             burstCount = 1;
             burstTimer.Reset();
         }
-        if (burst && ltype != LauncherType.Spread) {
+        if (burst) {
             if (burstCount >= burstAmount) {
                 burst = false;
             }

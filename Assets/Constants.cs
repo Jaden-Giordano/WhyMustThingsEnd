@@ -23,7 +23,7 @@ public class Constants : MonoBehaviour {
     void GenerateLevel() {
         for (int i = 0; i < amountOfPolysToSpawn; i++) {
             GameObject gm = Instantiate(morphingPolyPrefab);
-            gm.transform.position = new Vector3((Random.value * 50) - 25, (Random.value * 50) - 25);
+            gm.transform.position = new Vector3((Random.value * 100) - 50, (Random.value * 100) - 50);
         }
     }
 

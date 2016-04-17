@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour {
     public float damage = 1f;
 
     [SerializeField]
-    protected float life = 20f;
+    public float life = 20f;
 
     [SerializeField]
     public float speed = 2;
@@ -67,7 +67,7 @@ public class Projectile : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject != this.owner) {
+        if (col.gameObject != this.owner && col.gameObject.transform.parent != this.owner) {
             if (col.gameObject.tag == "Projectile" && timer.elapsedTime > 0.2f) {
                 Destroy(col.gameObject);
                 Destroy(this.gameObject);

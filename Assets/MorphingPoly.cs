@@ -83,16 +83,18 @@ public class MorphingPoly : Poly {
 
         MorphingPoly mp = gm.GetComponent<MorphingPoly>();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < morphCount/2; i++) {
             mp.Morph(main);
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < morphCount/4; i++) {
             mp.Morph(sec);
         }
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < morphCount / 6; i++) {
             mp.Morph(tri);
         }
-        mp.AttemptMorph();
+        for (int i = 0; i < morphCount / 8; i++) {
+            mp.AttemptMorph();
+        }
 
         mp.SetReproduceAt(Mathf.RoundToInt(this.reproduceAt * 1.7f));
         this.SetReproduceAt(Mathf.RoundToInt(this.reproduceAt * 1.5f));
@@ -204,11 +206,21 @@ public class MorphingPoly : Poly {
                     this.gameObject.AddComponent<Mover>();
                 }
                 break;
+            case MorphType.Shields:
+                Shield s = GetComponent<Shield>();
+                if (s != null) {
+                    s.Upgrade();
+                }
+                else {
+                    this.gameObject.AddComponent<Shield>();
+                }
+                break;
             case MorphType.Health:
                 float rat = this.health / this.maxHealth;
                 this.maxHealth *= 1.25f;
                 this.transform.localScale = new Vector3(this.maxHealth / 10, this.maxHealth / 10, this.maxHealth / 10);
                 this.health = this.maxHealth * rat;
+                this.health += this.maxHealth - this.health / 3;
                 break;
         }
         timer.Reset();
