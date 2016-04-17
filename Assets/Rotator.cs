@@ -12,7 +12,13 @@ public class Rotator : MonoBehaviour {
 	}
 
     protected virtual void tick() {
-        this.transform.rotation = Quaternion.Euler(new Vector3(0, 0, this.transform.rotation.eulerAngles.z + (speed * Time.deltaTime)));
+        if (this.gameObject.tag == "Player") {
+            float h = Input.GetAxis("Rotational");
+            this.transform.rotation = Quaternion.Euler(new Vector3(0, 0, this.transform.rotation.eulerAngles.z + (h * speed * Time.deltaTime)));
+        }
+        else {
+            this.transform.rotation = Quaternion.Euler(new Vector3(0, 0, this.transform.rotation.eulerAngles.z + (speed * Time.deltaTime)));
+        }
     }
 
     public virtual void Upgrade() {

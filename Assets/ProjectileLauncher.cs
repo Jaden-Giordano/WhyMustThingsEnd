@@ -50,12 +50,23 @@ public class ProjectileLauncher : MonoBehaviour {
 	}
 
     protected virtual void tick() {
-        if (timer.elapsedTime > launchCooldown) {
-            timer.Reset();
-            LaunchProjectiles();
-            burst = true;
-            burstCount = 1;
-            burstTimer.Reset();
+        if (this.gameObject.tag == "Player") {
+            if (Input.GetKeyDown(KeyCode.Space) && timer.elapsedTime > launchCooldown) {
+                timer.Reset();
+                LaunchProjectiles();
+                burst = true;
+                burstCount = 1;
+                burstTimer.Reset();
+            }
+        }
+        else {
+            if (timer.elapsedTime > launchCooldown) {
+                timer.Reset();
+                LaunchProjectiles();
+                burst = true;
+                burstCount = 1;
+                burstTimer.Reset();
+            }
         }
         if (burst) {
             if (burstCount >= burstAmount) {

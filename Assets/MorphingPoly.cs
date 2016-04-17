@@ -21,7 +21,7 @@ public class MorphingPoly : Poly {
     protected float morphChance = .5f;
 
     [SerializeField]
-    protected int morphCount = 0;
+    public int morphCount = 0;
 
     [SerializeField]
     protected int reproduceAt = 10;

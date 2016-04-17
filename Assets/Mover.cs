@@ -28,16 +28,24 @@ public class Mover : MonoBehaviour {
 	}
 
     protected virtual void tick() {
-        if (destination == null) {
-            this.destination = new Vector3((Random.value * 1000) - 500, (Random.value * 1000) - 500);
+        if (this.gameObject.tag == "Player") {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+
+            this.transform.position = this.transform.position + (new Vector3(h, v).normalized * speed * Time.deltaTime);
         }
-        else if (timer.elapsedTime > destinationCooldown && Random.value > .9f) {
-            this.destination = new Vector3((Random.value * 1000) - 500, (Random.value * 1000) - 500);
-            this.timer.Reset();
-        }
-        if (destination != null) {
-            if (Vector3.Distance(this.transform.position, destination) > .3f) {
-                this.transform.position = this.transform.position + ((destination - this.transform.position).normalized * speed * Time.deltaTime);
+        else {
+            if (destination == null) {
+                this.destination = new Vector3((Random.value * 1000) - 500, (Random.value * 1000) - 500);
+            }
+            else if (timer.elapsedTime > destinationCooldown && Random.value > .9f) {
+                this.destination = new Vector3((Random.value * 1000) - 500, (Random.value * 1000) - 500);
+                this.timer.Reset();
+            }
+            if (destination != null) {
+                if (Vector3.Distance(this.transform.position, destination) > .3f) {
+                    this.transform.position = this.transform.position + ((destination - this.transform.position).normalized * speed * Time.deltaTime);
+                }
             }
         }
     }

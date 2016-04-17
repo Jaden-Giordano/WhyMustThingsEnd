@@ -19,7 +19,8 @@ public class Poly : MonoBehaviour {
 
     protected Timer invTimer;
 
-    protected float health;
+    public float health;
+    [SerializeField]
     protected float maxHealth;
 
 	void Awake() {

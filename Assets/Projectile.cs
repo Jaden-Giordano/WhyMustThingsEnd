@@ -17,7 +17,7 @@ public class Projectile : MonoBehaviour {
     public float damage = 1f;
 
     [SerializeField]
-    public float life = 20f;
+    public float life = 10f;
 
     [SerializeField]
     public float speed = 2;
@@ -67,12 +67,15 @@ public class Projectile : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject != this.owner && col.gameObject.transform.parent != this.owner) {
+        if (col.gameObject != this.owner && col.gameObject.transform.parent != this.owner && col.gameObject.transform.parent != this.transform.parent) {
             if (col.gameObject.tag == "Projectile" && timer.elapsedTime > 0.2f) {
                 Destroy(col.gameObject);
                 Destroy(this.gameObject);
             }
-            else if (col.gameObject.tag == "Poly") {
+            else if (col.gameObject.tag == "Poly" || col.gameObject.tag == "Player") {
+                if (col.gameObject.GetComponent<Poly>().health-this.damage < 0 && this.owner.tag == "Player") {
+                    this.owner.GetComponent<Player>().AddSkillPoints(col.gameObject.GetComponent<MorphingPoly>().morphCount / 3);
+                }
                 col.gameObject.GetComponent<Poly>().Damage(this.damage);
                 Destroy(this.gameObject);
             }
