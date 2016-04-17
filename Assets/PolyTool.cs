@@ -32,6 +32,20 @@ public class PolyTool {
         return triangle;
     }
 
+    public static Vector2[] CreateTriangleCollider() {
+        List<Vector2> verticies = new List<Vector2>();
+
+        Vector2 v1 = new Vector2(0, 1);
+        Vector2 v2 = new Vector2(0.86602f, -0.5f);
+        Vector2 v3 = new Vector2(-0.86602f, -0.5f);
+
+        verticies.Add(v1);
+        verticies.Add(v2);
+        verticies.Add(v3);
+
+        return verticies.ToArray();
+    }
+
     public static Mesh CreateSquare() {
         List<Vector3> verticies = new List<Vector3>();
         List<int> triangles = new List<int>();
@@ -67,6 +81,22 @@ public class PolyTool {
         square.colors = colors.ToArray();
 
         return square;
+    }
+
+    public static Vector2[] CreateSquareCollider() {
+        List<Vector2> verticies = new List<Vector2>();
+
+        Vector2 v1 = new Vector2(-0.707107f, 0.707107f);
+        Vector2 v2 = new Vector2(0.707107f, 0.707107f);
+        Vector2 v3 = new Vector2(0.707107f, -0.707107f);
+        Vector2 v4 = new Vector2(-0.707107f, -0.707107f);
+
+        verticies.Add(v1);
+        verticies.Add(v2);
+        verticies.Add(v3);
+        verticies.Add(v4);
+
+        return verticies.ToArray();
     }
 
     public static Mesh CreatePentagon() {
@@ -112,7 +142,25 @@ public class PolyTool {
 
         return pentagon;
     }
-    
+
+    public static Vector2[] CreatePentagonCollider() {
+        List<Vector2> verticies = new List<Vector2>();
+
+        Vector2 v1 = new Vector2(0, 1);
+        Vector2 v2 = new Vector2(0.9510565f, 0.309017f);
+        Vector2 v3 = new Vector2(0.5877853f, -0.809017f);
+        Vector2 v4 = new Vector2(-0.5877853f, -0.809017f);
+        Vector2 v5 = new Vector2(-0.9510565f, 0.309017f);
+
+        verticies.Add(v1);
+        verticies.Add(v2);
+        verticies.Add(v3);
+        verticies.Add(v4);
+        verticies.Add(v5);
+
+        return verticies.ToArray();
+    }
+
     public static Mesh CreateHexagon() {
         List<Vector3> verticies = new List<Vector3>();
         List<int> triangles = new List<int>();
@@ -162,6 +210,26 @@ public class PolyTool {
         hexagon.colors = colors.ToArray();
 
         return hexagon;
+    }
+
+    public static Vector2[] CreateHexagonCollider() {
+        List<Vector2> verticies = new List<Vector2>();
+
+        Vector2 v1 = new Vector2(0, 1);
+        Vector2 v2 = new Vector2(0.8660254f, 0.5f);
+        Vector2 v3 = new Vector2(0.8660254f, -0.5f);
+        Vector2 v4 = new Vector2(0, -1);
+        Vector2 v5 = new Vector2(-0.8660254f, -0.5f);
+        Vector2 v6 = new Vector2(-0.8660254f, 0.5f);
+
+        verticies.Add(v1);
+        verticies.Add(v2);
+        verticies.Add(v3);
+        verticies.Add(v4);
+        verticies.Add(v5);
+        verticies.Add(v6);
+
+        return verticies.ToArray();
     }
 
     public static Mesh CreateOctagon() {
@@ -227,6 +295,30 @@ public class PolyTool {
         octagon.colors = colors.ToArray();
 
         return octagon;
+    }
+
+    public static Vector2[] CreateOctagonCollider() {
+        List<Vector2> verticies = new List<Vector2>();
+
+        Vector2 v1 = new Vector2(0, 1);
+        Vector2 v2 = new Vector2(0.70710678f, 0.70710678f);
+        Vector2 v3 = new Vector2(1, 0);
+        Vector2 v4 = new Vector2(0.70710678f, -0.70710678f);
+        Vector2 v5 = new Vector2(0, -1);
+        Vector2 v6 = new Vector2(-0.70710678f, -0.70710678f);
+        Vector2 v7 = new Vector2(-1, 0);
+        Vector2 v8 = new Vector2(-0.70710678f, 0.70710678f);
+
+        verticies.Add(v1);
+        verticies.Add(v2);
+        verticies.Add(v3);
+        verticies.Add(v4);
+        verticies.Add(v5);
+        verticies.Add(v6);
+        verticies.Add(v7);
+        verticies.Add(v8);
+
+        return verticies.ToArray();
     }
 
     public static Color[] SetColor(PolyType ptype, Color color) {

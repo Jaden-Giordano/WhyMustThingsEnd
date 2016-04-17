@@ -3,18 +3,24 @@ using System.Collections;
 
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshCollider))]
+[RequireComponent(typeof(PolygonCollider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour {
 
     protected Vector3 direction;
 
     protected Timer timer;
 
+    protected GameObject owner;
+
+    [SerializeField]
+    public float damage = 1f;
+
     [SerializeField]
     protected float life = 20f;
 
     [SerializeField]
-    protected float speed = 2;
+    public float speed = 2;
 
 	void Awake () {
         init();
@@ -24,15 +30,22 @@ public class Projectile : MonoBehaviour {
         this.timer = new Timer();
 
         this.GetComponent<MeshFilter>().mesh = PolyTool.CreateOctagon();
-        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
+        this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateOctagonCollider();
         this.transform.localScale = new Vector3(.1f, .1f, 1);
         this.GetComponent<MeshFilter>().mesh.colors = PolyTool.SetColor(PolyType.Octagon, Color.black);
-        this.GetComponent<MeshRenderer>().materials[0] = Constants.vertexColor;
+        this.GetComponent<MeshRenderer>().sharedMaterial = Constants.vertexColorMat;
+
+        this.GetComponent<Rigidbody2D>().gravityScale = 0;
+        this.GetComponent<Rigidbody2D>().mass = 0.00001f;
+        this.GetComponent<Rigidbody2D>().freezeRotation = true;
+        this.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+
+        this.tag = "Projectile";
     }
 	
 	void Update () {
         tick();
-	}
+    }
 
     protected virtual void tick() {
         this.transform.position = this.transform.position + (direction * speed * Time.deltaTime);
@@ -47,6 +60,23 @@ public class Projectile : MonoBehaviour {
 
     public virtual void SetShader(Shader shader) {
         this.GetComponent<Material>().shader = shader;
+    }
+
+    public virtual void SetOwner(GameObject o) {
+        this.owner = o;
+    }
+
+    void OnCollisionEnter2D(Collision2D col) {
+        if (col.gameObject != this.owner) {
+            if (col.gameObject.tag == "Projectile" && timer.elapsedTime > 0.2f) {
+                Destroy(col.gameObject);
+                Destroy(this.gameObject);
+            }
+            else if (col.gameObject.tag == "Poly") {
+                col.gameObject.GetComponent<Poly>().Damage(this.damage);
+                Destroy(this.gameObject);
+            }
+        }
     }
 
 }

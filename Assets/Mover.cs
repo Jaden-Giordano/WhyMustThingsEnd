@@ -14,7 +14,7 @@ public class Mover : MonoBehaviour {
     protected Vector3 destination;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         init();
 	}
 	

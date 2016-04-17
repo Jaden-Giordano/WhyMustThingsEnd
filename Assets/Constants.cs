@@ -3,26 +3,26 @@ using System.Collections;
 
 public class Constants : MonoBehaviour {
 
-    public static Material vertexColor;
-
-    public static GameObject mpoly;
-
     public Material vertexColorMaterial;
 
     public GameObject morphingPolyPrefab;
 
+    public static Material vertexColorMat;
+
+    public static GameObject morphingPoly;
+
     public int amountOfPolysToSpawn = 10;
 
-    void Start() {
-        vertexColor = vertexColorMaterial;
-        mpoly = morphingPolyPrefab;
+    void Start () {
+        vertexColorMat = vertexColorMaterial;
+        morphingPoly = morphingPolyPrefab;
 
         GenerateLevel();
     }
 
     void GenerateLevel() {
         for (int i = 0; i < amountOfPolysToSpawn; i++) {
-            GameObject gm = Instantiate(mpoly);
+            GameObject gm = Instantiate(morphingPolyPrefab);
             gm.transform.position = new Vector3((Random.value * 50) - 25, (Random.value * 50) - 25);
         }
     }

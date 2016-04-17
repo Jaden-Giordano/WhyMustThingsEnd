@@ -6,7 +6,8 @@ public enum MorphType {
     Movement = 1,
     Rotation = 2,
     Projectiles = 3,
-    Shields = 4
+    Shields = 4,
+    Health = 5
 }
 
 public class MorphingPoly : Poly {
@@ -19,10 +20,21 @@ public class MorphingPoly : Poly {
     [SerializeField]
     protected float morphChance = .5f;
 
+    [SerializeField]
+    protected int morphCount = 0;
+
+    [SerializeField]
+    protected int reproduceAt = 10;
+
+    [SerializeField]
+    protected int[] morphTypeCount;
+
     protected override void init() {
         base.init();
 
         timer = new Timer();
+
+        morphTypeCount = new int[6] { 0, 0, 0, 0, 0, 0 };
     }
 
     protected override void tick() {
@@ -32,11 +44,63 @@ public class MorphingPoly : Poly {
         if (timer.elapsedTime > morphTime) {
             AttemptMorph();
         }
+        if (morphCount > reproduceAt && Random.value > 0.5f) {
+            AttemptReproduce();
+        }
+    }
+
+    public virtual void AttemptReproduce() {
+        int main = 0;
+        for (int i = main; i < morphTypeCount.Length; i++) {
+            if (morphTypeCount[i] > morphTypeCount[main]) {
+                main = i;
+            }
+        }
+        int sec = 0;
+        if (sec == main) {
+            sec++;
+        }
+        for (int i = 0; i < morphTypeCount.Length; i++) {
+            if (i != main && morphTypeCount[i] > morphTypeCount[sec]) {
+                sec = i;
+            }
+        }
+        int tri = 0;
+        for (int i = 0; i < morphTypeCount.Length; i++) {
+            if (morphTypeCount[i] < morphTypeCount[sec]) {
+                tri = i;
+            }
+        }
+        for (int i = 0; i < morphTypeCount.Length; i++) {
+            if (i != main && i != sec && morphTypeCount[i] > morphTypeCount[tri]) {
+                tri = i;
+            }
+        }
+
+        GameObject gm = Instantiate(Constants.morphingPoly);
+
+        gm.transform.position = this.transform.position;
+
+        MorphingPoly mp = gm.GetComponent<MorphingPoly>();
+
+        for (int i = 0; i < 4; i++) {
+            mp.Morph(main);
+        }
+        for (int i = 0; i < 3; i++) {
+            mp.Morph(sec);
+        }
+        for (int i = 0; i < 2; i++) {
+            mp.Morph(tri);
+        }
+        mp.AttemptMorph();
+
+        mp.SetReproduceAt(Mathf.RoundToInt(this.reproduceAt * 1.7f));
+        this.SetReproduceAt(Mathf.RoundToInt(this.reproduceAt * 1.5f));
     }
 
     public virtual void AttemptMorph() {
         if (Random.value > morphChance) {
-            int r = Mathf.RoundToInt(Random.value * 3); // Shields dont work in this
+            int r = Mathf.RoundToInt(Random.value * (int) MorphType.Health); // Shields dont work in this
             if (r == (int)MorphType.Shape) {
                 Morph(MorphType.Shape);
             }
@@ -52,34 +116,65 @@ public class MorphingPoly : Poly {
             else if (r == (int)MorphType.Shields) {
                 Morph(MorphType.Shields);
             }
+            else if (r == (int)MorphType.Health) {
+                Morph(MorphType.Health);
+            }
+            
+        }
+    }
+
+    public virtual void Morph(int type) {
+        if (type == (int)MorphType.Shape) {
+            Morph(MorphType.Shape);
+        }
+        else if (type == (int)MorphType.Movement) {
+            Morph(MorphType.Movement);
+        }
+        else if (type == (int)MorphType.Rotation) {
+            Morph(MorphType.Rotation);
+        }
+        else if (type == (int)MorphType.Projectiles) {
+            Morph(MorphType.Projectiles);
+        }
+        else if (type == (int)MorphType.Shields) {
+            Morph(MorphType.Shields);
+        }
+        else if (type == (int)MorphType.Health) {
+            Morph(MorphType.Health);
         }
     }
 
     public virtual void Morph(MorphType mtype) {
         switch (mtype) {
             case MorphType.Shape:
-                switch (this.ptype) {
-                    case PolyType.Hexagon:
-                        this.ptype = PolyType.Octagon;
-                        this.GetComponent<MeshFilter>().mesh = PolyTool.CreateOctagon();
-                        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
-                        break;
-                    case PolyType.Pentagon:
-                        this.ptype = PolyType.Hexagon;
-                        this.GetComponent<MeshFilter>().mesh = PolyTool.CreateHexagon();
-                        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
-                        break;
-                    case PolyType.Rectangle:
-                        this.ptype = PolyType.Pentagon;
-                        this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePentagon();
-                        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
-                        break;
+                int ra = Mathf.RoundToInt(Random.value);
+                if (ra == 0) {
+                    this.morphTime -= .5f;
+                }
+                else {
+                    switch (this.ptype) {
+                        case PolyType.Hexagon:
+                            this.ptype = PolyType.Octagon;
+                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreateOctagon();
+                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateOctagonCollider();
+                            break;
+                        case PolyType.Pentagon:
+                            this.ptype = PolyType.Hexagon;
+                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreateHexagon();
+                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateHexagonCollider();
+                            break;
+                        case PolyType.Rectangle:
+                            this.ptype = PolyType.Pentagon;
+                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePentagon();
+                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreatePentagonCollider();
+                            break;
 
-                    case PolyType.Triangle:
-                        this.ptype = PolyType.Rectangle;
-                        this.GetComponent<MeshFilter>().mesh = PolyTool.CreateSquare();
-                        this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
-                        break;
+                        case PolyType.Triangle:
+                            this.ptype = PolyType.Rectangle;
+                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreateSquare();
+                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateSquareCollider();
+                            break;
+                    }
                 }
                 break;
             case MorphType.Projectiles:
@@ -109,8 +204,20 @@ public class MorphingPoly : Poly {
                     this.gameObject.AddComponent<Mover>();
                 }
                 break;
+            case MorphType.Health:
+                float rat = this.health / this.maxHealth;
+                this.maxHealth *= 1.25f;
+                this.transform.localScale = new Vector3(this.maxHealth / 10, this.maxHealth / 10, this.maxHealth / 10);
+                this.health = this.maxHealth * rat;
+                break;
         }
         timer.Reset();
+        morphTypeCount[(int)mtype]++;
+        morphCount++;
+    }
+
+    public virtual void SetReproduceAt(int amt) {
+        this.reproduceAt = amt;
     }
 
 }
