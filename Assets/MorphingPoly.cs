@@ -2,11 +2,11 @@
 using System.Collections;
 
 public enum MorphType {
-    Shape,
-    Movement,
-    Rotation,
-    Projectiles,
-    Shields
+    Shape = 0,
+    Movement = 1,
+    Rotation = 2,
+    Projectiles = 3,
+    Shields = 4
 }
 
 public class MorphingPoly : Poly {
@@ -36,7 +36,22 @@ public class MorphingPoly : Poly {
 
     public virtual void AttemptMorph() {
         if (Random.value > morphChance) {
-            Morph(MorphType.Shape);
+            int r = Mathf.RoundToInt(Random.value * 3); // Shields dont work in this
+            if (r == (int)MorphType.Shape) {
+                Morph(MorphType.Shape);
+            }
+            else if (r == (int)MorphType.Movement) {
+                Morph(MorphType.Movement);
+            }
+            else if (r == (int)MorphType.Rotation) {
+                Morph(MorphType.Rotation);
+            }
+            else if (r == (int)MorphType.Projectiles) {
+                Morph(MorphType.Projectiles);
+            }
+            else if (r == (int)MorphType.Shields) {
+                Morph(MorphType.Shields);
+            }
         }
     }
 

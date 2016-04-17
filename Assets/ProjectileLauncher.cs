@@ -5,7 +5,7 @@ public enum LauncherType {
     Single = 1,
     Double = 2,
     Triple = 3,
-    Spread = 1
+    Spread = 4
 }
 
 public class ProjectileLauncher : MonoBehaviour {
@@ -23,6 +23,7 @@ public class ProjectileLauncher : MonoBehaviour {
 
     private bool burst = false;
 
+    [SerializeField]
     protected LauncherType ltype;
 
 	void Awake () {
@@ -47,7 +48,7 @@ public class ProjectileLauncher : MonoBehaviour {
             burstCount = 1;
             burstTimer.Reset();
         }
-        if (burst) {
+        if (burst && ltype != LauncherType.Spread) {
             if (burstCount >= (int)ltype) {
                 burst = false;
             }

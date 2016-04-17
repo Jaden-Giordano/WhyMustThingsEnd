@@ -8,6 +8,11 @@ public class Projectile : MonoBehaviour {
 
     protected Vector3 direction;
 
+    protected Timer timer;
+
+    [SerializeField]
+    protected float life = 20f;
+
     [SerializeField]
     protected float speed = 2;
 
@@ -16,6 +21,8 @@ public class Projectile : MonoBehaviour {
 	}
 
     protected virtual void init() {
+        this.timer = new Timer();
+
         this.GetComponent<MeshFilter>().mesh = PolyTool.CreateOctagon();
         this.GetComponent<MeshCollider>().sharedMesh = this.GetComponent<MeshFilter>().mesh;
         this.transform.localScale = new Vector3(.1f, .1f, 1);
@@ -29,6 +36,9 @@ public class Projectile : MonoBehaviour {
 
     protected virtual void tick() {
         this.transform.position = this.transform.position + (direction * speed * Time.deltaTime);
+        if (this.timer.elapsedTime > this.life) {
+            Destroy(this.gameObject);
+        }
     }
 
     public virtual void SetDirection(Vector3 dir) {
