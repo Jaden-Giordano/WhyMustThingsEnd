@@ -81,19 +81,25 @@ public class ProjectileLauncher : MonoBehaviour {
     }
 
     public virtual void Upgrade() {
-        int r = Mathf.RoundToInt(Random.value * 2);
+        int r = Mathf.RoundToInt(Random.value * 3);
         switch (r) {
             case (int)UpgradeType.ProjectileSpeed:
-                this.projectileSpeed *= 1.25f;
+                this.projectileSpeed *= 1.15f;
+                if (this.projectileSpeed > 25) {
+                    this.projectileSpeed = 25;
+                }
                 break;
             case (int)UpgradeType.ProjectileDamage:
-                this.projectileDamage *= 1.25f;
+                this.projectileDamage *= 1.2f;
                 break;
             case (int)UpgradeType.LauncherType:
                 this.ltype = LauncherType.Spread;
                 break;
             case (int)UpgradeType.BurstAmount:
                 this.burstAmount++;
+                if (this.burstAmount > 5) {
+                    this.burstAmount = 5; // // // // // // MAKE IT TURN INTO SPRAY
+                }
                 break;
         }
     }

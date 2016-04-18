@@ -23,8 +23,8 @@ public class Constants : MonoBehaviour {
 
         music.volume = 0;
 
-
         StartCoroutine(MusicFade(music));
+        StartCoroutine(ColorFade(Camera.main));
     }
 
     IEnumerator MusicFade (AudioSource a) {
@@ -33,6 +33,13 @@ public class Constants : MonoBehaviour {
                 a.volume = Mathf.Lerp(a.volume, .28f, .01f);
                 yield return null;
             }
+        }
+    }
+
+    IEnumerator ColorFade (Camera m) {
+        while (true) {
+            m.backgroundColor = Color.Lerp(m.backgroundColor, new Color(Random.value, Random.value, Random.value), .005f);
+            yield return null;
         }
     }
 

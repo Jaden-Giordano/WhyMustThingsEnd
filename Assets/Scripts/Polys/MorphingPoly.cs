@@ -151,30 +151,34 @@ public class MorphingPoly : Poly {
             case MorphType.Shape:
                 int ra = Mathf.RoundToInt(Random.value);
                 if (ra == 0) {
-                    this.morphTime -= .5f;
+                    if (this.tag == "Player") {
+                        ReduceSkillPointTime();
+                    }
+                    else {
+                        this.morphTime -= .5f;
+                    }
                 }
                 else {
                     switch (this.ptype) {
                         case PolyType.Hexagon:
                             this.ptype = PolyType.Octagon;
-                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreateOctagon();
-                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateOctagonCollider();
+                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePolygon(8, Color.black);
+                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateCollider(8);
                             break;
                         case PolyType.Pentagon:
                             this.ptype = PolyType.Hexagon;
-                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreateHexagon();
-                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateHexagonCollider();
+                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePolygon(6, Color.black);
+                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateCollider(6);
                             break;
                         case PolyType.Rectangle:
                             this.ptype = PolyType.Pentagon;
-                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePentagon();
-                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreatePentagonCollider();
+                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePolygon(5, Color.black);
+                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateCollider(5);
                             break;
-
                         case PolyType.Triangle:
                             this.ptype = PolyType.Rectangle;
-                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreateSquare();
-                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateSquareCollider();
+                            this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePolygon(4, Color.black);
+                            this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateCollider(4);
                             break;
                     }
                 }
@@ -217,8 +221,8 @@ public class MorphingPoly : Poly {
                 break;
             case MorphType.Health:
                 float rat = this.health / this.maxHealth;
-                this.maxHealth *= 1.25f;
-                this.transform.localScale = new Vector3(this.maxHealth / 10, this.maxHealth / 10, this.maxHealth / 10);
+                this.maxHealth *= 1.15f;
+                this.transform.localScale = new Vector3((this.maxHealth/10 < 8)?(this.maxHealth / 10):8, (this.maxHealth / 10 < 8) ? (this.maxHealth / 10) : 8, (this.maxHealth / 10 < 8) ? (this.maxHealth / 10) : 8);
                 this.health = this.maxHealth * rat;
                 this.health += this.maxHealth - this.health / 3;
                 break;
@@ -230,6 +234,10 @@ public class MorphingPoly : Poly {
 
     public virtual void SetReproduceAt(int amt) {
         this.reproduceAt = amt;
+    }
+
+    protected virtual void ReduceSkillPointTime() {
+
     }
 
 }

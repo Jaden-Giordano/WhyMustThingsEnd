@@ -43,13 +43,23 @@ public class Shield : MonoBehaviour {
     public virtual void AddShield(int i) {
         GameObject proj = new GameObject();
         proj.AddComponent<ShieldProjectile>();
-        proj.transform.position = this.transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (i * (amountOfShields/360))), Mathf.Sin(Mathf.Deg2Rad * (i * (amountOfShields / 360))));
+        proj.transform.position = this.transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * (i * (360/amountOfShields))), Mathf.Sin(Mathf.Deg2Rad * (i * (360/amountOfShields))));
         Projectile p = proj.GetComponent<Projectile>();
         proj.transform.parent = this.transform;
+        proj.transform.localScale = this.transform.localScale / 10;
         p.SetOwner(this.gameObject);
     }
 
     public virtual void Upgrade() {
-        this.amountOfShields++;
+        int r = Mathf.RoundToInt(Random.value);
+        if (r == 0) {
+            this.amountOfShields++;
+        }
+        else {
+            this.regenTime *= 0.9f;
+            if (this.regenTime < 0.2f) {
+                this.regenTime = 0.2f;
+            }
+        }
     }
 }

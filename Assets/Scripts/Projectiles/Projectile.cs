@@ -29,10 +29,9 @@ public class Projectile : MonoBehaviour {
     protected virtual void init() {
         this.timer = new Timer();
 
-        this.GetComponent<MeshFilter>().mesh = PolyTool.CreateOctagon();
-        this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateOctagonCollider();
+        this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePolygon(8, Color.black);
+        this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateCollider(8);
         this.transform.localScale = new Vector3(.1f, .1f, 1);
-        this.GetComponent<MeshFilter>().mesh.colors = PolyTool.SetColor(PolyType.Octagon, Color.black);
         this.GetComponent<MeshRenderer>().sharedMaterial = Constants.vertexColorMat;
 
         this.GetComponent<Rigidbody2D>().gravityScale = 0;
@@ -67,7 +66,7 @@ public class Projectile : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject != this.owner) {
+        if (col.gameObject != this.owner && col != null) {
             if (col.gameObject.tag == "Projectile" && timer.elapsedTime > 0.2f) {
                 if (col.gameObject.GetComponent<Projectile>().owner != this.owner && col.gameObject.transform.parent != this.owner && col.gameObject.transform.parent != this.transform.parent) {
                     Destroy(col.gameObject);

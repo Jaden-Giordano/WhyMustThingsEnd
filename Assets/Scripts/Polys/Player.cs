@@ -37,7 +37,7 @@ public class Player : MorphingPoly {
         }
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, Camera.main.transform.position.z), .1f);
         float prz = this.zoom;
-        this.zoom = .1f + (this.maxHealth/10)/2;
+        this.zoom = .1f + (this.transform.localScale.x)/2;
         float z = Vector2.Lerp(new Vector2(prz, 0), new Vector2(zoom, 0), .1f).x;
         Camera.main.orthographicSize = 18*z;
         if (Input.GetKeyUp(KeyCode.Alpha1)) {
@@ -79,6 +79,15 @@ public class Player : MorphingPoly {
 
         Text hp = uiPanel.transform.GetChild(6).GetChild(0).GetComponent<Text>();
         hp.text = "Health \n\r" + morphTypeCount[5];
+
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
+        }
+
+        Transform hpbar = uiPanel.transform.GetChild(7).GetChild(0);
+        hpbar.localScale = new Vector3(.5f*(this.health / this.maxHealth)+.5f, 1, 1);
+
+        
     }
 
     public virtual void SpendSkillPoint(MorphType mtype) {
@@ -90,6 +99,13 @@ public class Player : MorphingPoly {
 
     public virtual void AddSkillPoints(int amt) {
         this.unspentPoints += amt;
+    }
+
+    protected override void ReduceSkillPointTime() {
+        this.pointAddition *= .8f;
+        if (this.pointAddition < 1.5f) {
+            this.pointAddition = 1.5f;
+        }
     }
 
 }

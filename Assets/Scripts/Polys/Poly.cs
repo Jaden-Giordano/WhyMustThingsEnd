@@ -28,8 +28,8 @@ public class Poly : MonoBehaviour {
     }
 
     protected virtual void init() {
-        this.GetComponent<MeshFilter>().mesh = PolyTool.CreateTriangle();
-        this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateTriangleCollider();
+        this.GetComponent<MeshFilter>().mesh = PolyTool.CreatePolygon(3, Color.black);
+        this.GetComponent<PolygonCollider2D>().points = PolyTool.CreateCollider(3);
         this.GetComponent<MeshRenderer>().sharedMaterial = Constants.vertexColorMat;
         this.ptype = PolyType.Triangle;
 
