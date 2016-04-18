@@ -11,7 +11,6 @@ public class Shield : MonoBehaviour {
 
     [SerializeField]
     protected int amountOfShields;
-    List<Projectile> shields;
 
 	void Awake () {
         init();
@@ -20,7 +19,6 @@ public class Shield : MonoBehaviour {
     protected virtual void init() {
         amountOfShields = 2;
         regen = new Timer();
-        shields = new List<Projectile>();
         AddShield(0);
         AddShield(1);
 
@@ -49,7 +47,6 @@ public class Shield : MonoBehaviour {
         Projectile p = proj.GetComponent<Projectile>();
         proj.transform.parent = this.transform;
         p.SetOwner(this.gameObject);
-        this.shields.Add(p);
     }
 
     public virtual void Upgrade() {

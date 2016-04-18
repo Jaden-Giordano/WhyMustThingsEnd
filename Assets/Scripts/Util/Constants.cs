@@ -27,8 +27,8 @@ public class Constants : MonoBehaviour {
     }
 
     IEnumerator MusicFade (AudioSource a) {
-        while (a.volume < .38f) {
-            a.volume = Mathf.Lerp(a.volume, .4f, .01f);
+        while (a.volume < .275f) {
+            a.volume = Mathf.Lerp(a.volume, .28f, .01f);
             yield return null;
         }
     }
@@ -37,6 +37,15 @@ public class Constants : MonoBehaviour {
         for (int i = 0; i < amountOfPolysToSpawn; i++) {
             GameObject gm = Instantiate(morphingPolyPrefab);
             gm.transform.position = new Vector3((Random.value * 100) - 50, (Random.value * 100) - 50);
+        }
+    }
+
+    public void MuteAudio() {
+        if (music.volume != 0) {
+            music.volume = 0;
+        }
+        else {
+            music.volume = .28f;
         }
     }
 

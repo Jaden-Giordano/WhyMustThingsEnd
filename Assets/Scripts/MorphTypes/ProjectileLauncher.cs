@@ -107,6 +107,12 @@ public class ProjectileLauncher : MonoBehaviour {
         p.SetDirection(dir);
         p.speed = projectileSpeed;
         p.damage = projectileDamage;
+        if (this.transform.localScale.x < 10) {
+            proj.transform.localScale = this.transform.localScale/10;
+        }
+        else {
+            proj.transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 
     public virtual void LaunchProjectiles() {

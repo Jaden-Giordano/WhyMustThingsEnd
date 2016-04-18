@@ -67,9 +67,9 @@ public class Projectile : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject != this.owner && col.gameObject.transform.parent != this.owner && col.gameObject.transform.parent != this.transform.parent) {
+        if (col.gameObject != this.owner) {
             if (col.gameObject.tag == "Projectile" && timer.elapsedTime > 0.2f) {
-                if (col.gameObject.GetComponent<Projectile>().owner != this.owner) {
+                if (col.gameObject.GetComponent<Projectile>().owner != this.owner && col.gameObject.transform.parent != this.owner && col.gameObject.transform.parent != this.transform.parent) {
                     Destroy(col.gameObject);
                     Destroy(this.gameObject);
                 }

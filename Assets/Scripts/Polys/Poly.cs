@@ -53,7 +53,7 @@ public class Poly : MonoBehaviour {
     }
 
     protected virtual void tick() {
-        this.GetComponent<MeshFilter>().mesh.colors = PolyTool.SetColor(this.ptype, new Color(255 - (255 * (this.health / 10)), 255 * (this.health / 10), 0));
+        this.GetComponent<MeshFilter>().mesh.colors = PolyTool.SetColor(ptype, new Color(0, 255*(this.health/this.maxHealth), 0));
     }
 
     public virtual PolyType GetPolyType() {
