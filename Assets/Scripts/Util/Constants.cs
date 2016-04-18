@@ -23,13 +23,16 @@ public class Constants : MonoBehaviour {
 
         music.volume = 0;
 
+
         StartCoroutine(MusicFade(music));
     }
 
     IEnumerator MusicFade (AudioSource a) {
-        while (a.volume < .275f) {
-            a.volume = Mathf.Lerp(a.volume, .28f, .01f);
-            yield return null;
+        if (!muted) {
+            while (a.volume < .275f) {
+                a.volume = Mathf.Lerp(a.volume, .28f, .01f);
+                yield return null;
+            }
         }
     }
 
@@ -40,12 +43,16 @@ public class Constants : MonoBehaviour {
         }
     }
 
+    bool muted = false;
+
     public void MuteAudio() {
         if (music.volume != 0) {
             music.volume = 0;
+            muted = true;
         }
         else {
             music.volume = .28f;
+            muted = false;
         }
     }
 
